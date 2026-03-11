@@ -11,23 +11,20 @@ Sigue estos pasos para preparar tu entorno de base de datos en MariaDB o MySQL:
 Ejecuta los siguientes comandos en tu gestor (phpMyAdmin, terminal, etc.):
 
 ```sql
--- Crear la base de datos
-CREATE DATABASE IF NOT EXISTS gestion_ventas;
-USE gestion_ventas;
+-CREATE DATABASE IF NOT EXISTS crud_clientes
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
 
--- Crear la tabla clientes
-CREATE TABLE IF NOT EXISTS clientes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    telefono VARCHAR(15),
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+USE crud_clientes;
+
+CREATE TABLE IF NOT EXISTS clients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(120) NOT NULL,
+  phone VARCHAR(30) NOT NULL
 );
 
--- Insertar registros iniciales para pruebas
-INSERT INTO clientes (nombre, email, telefono) VALUES 
-('Ana García', 'ana.garcia@email.com', '600111222'),
-('Luis Pérez', 'luis.perez@email.com', '600333444'),
-('María López', 'm.lopez@email.com', '600555666'),
-('Carlos Ruiz', 'cruiz@email.com', '600777888'),
-('Elena Sanz', 'esanz@email.com', '600999000');
+-- (Opcional) datos de ejemplo
+INSERT INTO clients (name, email, phone) VALUES
+('Ana López', 'ana@example.com', '600111222'),
+('Juan Pérez', 'juan@example.com', '600333444');
