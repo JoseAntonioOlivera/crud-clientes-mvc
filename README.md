@@ -28,3 +28,26 @@ CREATE TABLE IF NOT EXISTS clients (
 INSERT INTO clients (name, email, phone) VALUES
 ('Ana López', 'ana@example.com', '600111222'),
 ('Juan Pérez', 'juan@example.com', '600333444');
+
+------------------------
+Multitabla
+
+USE mvc_pdo;
+
+CREATE TABLE categorias (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(60) NOT NULL UNIQUE
+);
+
+ALTER TABLE productos
+  ADD categoria_id INT NULL,
+  ADD CONSTRAINT fk_productos_categorias
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+    ON UPDATE CASCADE
+    ON DELETE SET NULL;
+
+INSERT INTO categorias (nombre) VALUES ('Periféricos'), ('Audio');
+
+UPDATE productos
+SET categoria_id = 1
+WHERE nombre IN ('Teclado','Ratón');
