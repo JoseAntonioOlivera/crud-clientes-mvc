@@ -1,37 +1,54 @@
+<?php
+// views/clients/create.php
+// Formulario de creación. Si hay errores, se muestran debajo de cada campo.
+$old = $old ?? [];
+$errors = $errors ?? [];
+?>
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Crear cliente</title>
+  <title>Nuevo cliente</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    label { display:block; margin-top: 10px; }
+    input { width: 320px; padding: 8px; }
+    .error { color:#c62828; font-size:14px; }
+    button { margin-top: 12px; padding:8px 12px; }
+  </style>
 </head>
 <body>
 
-<h1>Crear nuevo cliente</h1>
+  <p><a href="index.php?action=index">← Volver</a></p>
+  <h1>Nuevo cliente</h1>
 
-<?php if ($error !== ''): ?>
-  <p style="color:red"><?php echo $error; ?></p>
-<?php endif; ?>
+  <form method="post" action="index.php?action=store">
+    <label>
+      Nombre
+      <input name="name" value="<?php echo htmlspecialchars($old['name'] ?? ''); ?>">
+      <?php if (isset($errors['name'])): ?>
+        <div class="error"><?php echo htmlspecialchars($errors['name']); ?></div>
+      <?php endif; ?>
+    </label>
 
-<form method="post" action="index.php?action=store">
-  <p>
-    Nombre completo:<br>
-    <input type="text" name="nombre" value="<?php echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : ''; ?>" required>
-  </p>
-  
-  <p>
-    Correo electrónico:<br>
-    <input type="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required>
-  </p>
+    <label>
+      Email
+      <input name="email" value="<?php echo htmlspecialchars($old['email'] ?? ''); ?>">
+      <?php if (isset($errors['email'])): ?>
+        <div class="error"><?php echo htmlspecialchars($errors['email']); ?></div>
+      <?php endif; ?>
+    </label>
 
-  <p>
-    Teléfono:<br>
-    <input type="tel" name="telefono" value="<?php echo isset($_POST['telefono']) ? htmlspecialchars($_POST['telefono']) : ''; ?>">
-  </p>
+    <label>
+      Teléfono
+      <input name="phone" value="<?php echo htmlspecialchars($old['phone'] ?? ''); ?>">
+      <?php if (isset($errors['phone'])): ?>
+        <div class="error"><?php echo htmlspecialchars($errors['phone']); ?></div>
+      <?php endif; ?>
+    </label>
 
-  <button type="submit">Guardar Cliente</button>
-</form>
-
-<p><a href="index.php?action=index">Volver al listado</a></p>
+    <button type="submit">Crear</button>
+  </form>
 
 </body>
 </html>

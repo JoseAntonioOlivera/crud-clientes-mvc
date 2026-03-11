@@ -1,53 +1,59 @@
 <?php
-// Aquí llega la variable $Clientes desde el controlador
+// views/clients/index.php
+// Lista de clientes con acciones: editar y borrar.
 ?>
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <title>Clientes</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background: #f5f5f5; text-align: left; }
+    .top { display:flex; justify-content:space-between; align-items:center; }
+    .danger { background:#c62828; color:#fff; border:0; padding:6px 10px; cursor:pointer; }
+  </style>
 </head>
 <body>
 
-<h1>Listado de clientes</h1>
+  <div class="top">
+    <h1>Clientes</h1>
+    <a href="index.php?action=create">+ Nuevo cliente</a>
+  </div>
 
-<p><a href="index.php?action=create">Crear nuevo cliente</a></p>
+  <?php if (empty($clients)): ?>
+    <p>No hay clientes.</p>
+  <?php else: ?>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($clients as $c): ?>
+          <tr>
+            <td><?php echo (int)$c['id']; ?></td>
+            <td><?php echo htmlspecialchars($c['name']); ?></td>
+            <td><?php echo htmlspecialchars($c['email']); ?></td>
+            <td><?php echo htmlspecialchars($c['phone']); ?></td>
+            <td>
+              <a href="index.php?action=edit&id=<?php echo (int)$c['id']; ?>">Editar</a>
 
-<?php if (count($Clientes) === 0): ?>
-  <p>No hay clientes registrados.</p>
-<?php else: ?>
-  <table border="1" cellpadding="6">
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Teléfono</th>
-      <th>Fecha Registro</th>
-      <th>Acciones</th>
-    </tr>
-
-    <?php foreach ($Clientes as $c): ?>
-      <tr>
-        <td><?php echo (int)$c['id']; ?></td>
-        <td><?php echo htmlspecialchars($c['nombre']); ?></td>
-        <td><?php echo htmlspecialchars($c['email']); ?></td>
-        <td><?php echo htmlspecialchars($c['telefono']); ?></td>
-        <td><?php echo $c['fecha_registro']; ?></td>
-        <td>
-          <a href="index.php?action=edit&id=<?php echo (int)$c['id']; ?>">Editar</a>
-
-          <form method="post" action="index.php?action=delete" style="display:inline" onsubmit="return confirm('¿Seguro que quieres borrar este cliente?');">
-            <input type="hidden" name="id" value="<?php echo (int)$c['id']; ?>">
-            <button type="submit">Borrar</button>
-          </form>
-        </td>
-      </tr>
-    <?php endforeach; ?>
-
-  </table>
-<?php endif; ?>
-
-<p><a href="index.php">Volver al inicio</a></p>
+              <form method="post"
+                    action="index.php?action=destroy&id=<?php echo (int)$c['id']; ?>"
+                    style="display:inline"
+                    onsubmit="return confirm('¿Borrar este cliente?');">
+                <button class="danger" type="submit">Borrar</button>
+              </form>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  <?php endif; ?>
 
 </body>
 </html>

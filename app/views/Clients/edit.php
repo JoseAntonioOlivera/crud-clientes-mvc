@@ -1,46 +1,61 @@
+<?php
+// views/clients/edit.php
+// Formulario de edición. Si hay errores, se muestran.
+// Si el alumno envió datos con errores, se muestran esos (old).
+$old = $old ?? [];
+$errors = $errors ?? [];
+
+// Decide qué valor mostrar en el input
+function val(string $key, array $client, array $old): string {
+    if (isset($old[$key])) return (string)$old[$key];
+    return (string)($client[$key] ?? '');
+}
+?>
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <title>Editar cliente</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    label { display:block; margin-top: 10px; }
+    input { width: 320px; padding: 8px; }
+    .error { color:#c62828; font-size:14px; }
+    button { margin-top: 12px; padding:8px 12px; }
+  </style>
 </head>
 <body>
 
-<h1>Editar cliente</h1>
+  <p><a href="index.php?action=index">← Volver</a></p>
+  <h1>Editar cliente #<?php echo (int)$client['id']; ?></h1>
 
-<?php if ($error !== ''): ?>
-  <p style="color:red"><?php echo $error; ?></p>
-<?php endif; ?>
+  <form method="post" action="index.php?action=update&id=<?php echo (int)$client['id']; ?>">
+    <label>
+      Nombre
+      <input name="name" value="<?php echo htmlspecialchars(val('name', $client, $old)); ?>">
+      <?php if (isset($errors['name'])): ?>
+        <div class="error"><?php echo htmlspecialchars($errors['name']); ?></div>
+      <?php endif; ?>
+    </label>
 
-<form method="post" action="index.php?action=update">
-  <!-- Campo oculto para el ID -->
-  <input type="hidden" name="id" value="<?php echo (int)$Cliente['id']; ?>">
+    <label>
+      Email
+      <input name="email" value="<?php echo htmlspecialchars(val('email', $client, $old)); ?>">
+      <?php if (isset($errors['email'])): ?>
+        <div class="error"><?php echo htmlspecialchars($errors['email']); ?></div>
+      <?php endif; ?>
+    </label>
 
-  <p>
-    Nombre completo:<br>
-    <input type="text" name="nombre" value="<?php
-      echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : htmlspecialchars($Cliente['nombre']);
-    ?>" required>
-  </p>
+    <label>
+      Teléfono
+      <input name="phone" value="<?php echo htmlspecialchars(val('phone', $client, $old)); ?>">
+      <?php if (isset($errors['phone'])): ?>
+        <div class="error"><?php echo htmlspecialchars($errors['phone']); ?></div>
+      <?php endif; ?>
+    </label>
 
-  <p>
-    Correo electrónico:<br>
-    <input type="email" name="email" value="<?php
-      echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : htmlspecialchars($Cliente['email']);
-    ?>" required>
-  </p>
-
-  <p>
-    Teléfono:<br>
-    <input type="tel" name="telefono" value="<?php
-      echo isset($_POST['telefono']) ? htmlspecialchars($_POST['telefono']) : htmlspecialchars($Cliente['telefono']);
-    ?>">
-  </p>
-
-  <button type="submit">Actualizar cliente</button>
-</form>
-
-<p><a href="index.php?action=index">Volver al listado</a></p>
+    <button type="submit">Guardar</button>
+  </form>
 
 </body>
 </html>
