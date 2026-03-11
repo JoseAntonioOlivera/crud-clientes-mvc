@@ -13,7 +13,7 @@ class Database
     }
 
     // Cargamos el array de configuración
-    $c = require_once __DIR__ . '/../../config.php';
+    $c = require __DIR__ . '/../config/config.php';
 
     // Creamos el DSN (cadena de conexión)
     $dsn = "mysql:host=" . $c['host'] . ";dbname=" . $c['db'] . ";charset=" . $c['charset'];
@@ -30,5 +30,3 @@ class Database
     return $pdo;
   }
 }
-
-?>

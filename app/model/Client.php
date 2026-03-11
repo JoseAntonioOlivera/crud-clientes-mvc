@@ -2,7 +2,7 @@
 // model/Client.php
 // El modelo hace el CRUD en la tabla clients (solo base de datos).
 
-require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../config/config.php';
 
 class Client
 {
